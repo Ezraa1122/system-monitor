@@ -4,9 +4,6 @@ import log
 from rich.console import Console
 from rich.table import Table
 
-# for proc in psutil.process_iter(['pid', 'name', 'username']):
-#     print(proc.info)
-
 console = Console()
 
 def get_stats():
@@ -26,9 +23,10 @@ def format_time(seconds):
 
 def display_dashboard():
     cpu, memory, disk, processes, uptime = get_stats()
-
     #log
     log.log_stats(cpu, memory, disk)
+    if cpu > 85:
+        log.log_message("High CPU usage.")
 
     table = Table(title="System Monitor")
 
