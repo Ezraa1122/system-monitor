@@ -1,5 +1,6 @@
 import psutil
 import time
+import log
 from rich.console import Console
 from rich.table import Table
 
@@ -25,6 +26,10 @@ def format_time(seconds):
 
 def display_dashboard():
     cpu, memory, disk, processes, uptime = get_stats()
+
+    #log
+    log.log_stats(cpu, memory, disk)
+
     table = Table(title="System Monitor")
 
     table.add_column("System")
@@ -39,6 +44,13 @@ def display_dashboard():
     console.clear()
     console.print(table)
 
+    time.sleep(2)
+
 
 if __name__ == "__main__":
-    display_dashboard()
+    try:
+        while True:
+            display_dashboard()
+    except KeyboardInterrupt:
+        log.log_message("System monitor stopped by user.")
+        console.print("\nMonitor session stopped.")
